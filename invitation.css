@@ -325,7 +325,7 @@ COUNTDOWN
 
 .countdown-section {
 min-height: 70vh;
-
+height: auto;
 display: flex;
 flex-direction: column;
 
@@ -334,8 +334,9 @@ justify-content: center;
 
 text-align: center;
 
-background: #f7f0e5;
-
+background-image: url(Photos/photo1.jpg);
+background-size: 100% auto;
+aspect-ratio: 1 / 1;
 }
 
 .countdown-section h2 {
