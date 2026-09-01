@@ -7,11 +7,16 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     >
 
     <title>Ahmad & Yara — Our Wedding</title>
-    <link rel="icon" type="image/png" href="/Photos/wedding-invitation.png">
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="Photos/wedding-invitation.png"
+    >
 
     <link
         rel="stylesheet"
@@ -24,14 +29,126 @@
 <body>
 
     <!-- =====================================================
+         NAVIGATION MENU
+    ====================================================== -->
+
+    <header class="site-header">
+
+        <!-- HAMBURGER BUTTON -->
+
+        <button
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            type="button"
+        >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+        <!-- SIDE MENU -->
+
+        <nav
+            class="side-menu"
+            id="sideMenu"
+            aria-hidden="true"
+        >
+
+            <div class="menu-header">
+
+                <span>
+                    Ahmad & Yara
+                </span>
+
+                <button
+                    class="menu-close"
+                    id="menuClose"
+                    aria-label="Close navigation menu"
+                    type="button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <!-- MENU LINKS -->
+
+            <div class="menu-links">
+
+                <a href="#welcome">
+                    Home
+                </a>
+
+                <a href="#countdown">
+                    Countdown
+                </a>
+
+                <a href="#agenda">
+                    The Celebration
+                </a>
+
+                <a href="#venue">
+                    The Venue
+                </a>
+
+                <a href="#memories">
+                    Our Memories
+                </a>
+
+                <a href="#comments">
+                    Leave a Note
+                </a>
+
+                <a href="#rsvp">
+                    RSVP
+                </a>
+
+            </div>
+
+
+            <!-- LANGUAGE -->
+
+            <div class="menu-language">
+
+                <a href="arabic.html">
+                    العربية
+                </a>
+
+            </div>
+
+        </nav>
+
+
+        <!-- DARK OVERLAY -->
+
+        <div
+            class="menu-overlay"
+            id="menuOverlay"
+        ></div>
+
+    </header>
+
+
+
+    <!-- =====================================================
          WELCOME
     ====================================================== -->
 
-    <section class="welcome" id="welcome">
+    <section
+        class="welcome"
+        id="welcome"
+    >
 
         <p class="welcome-small">
             TOGETHER WITH THEIR FAMILIES
         </p>
+
 
         <h1>
             Ahmad <br>
@@ -39,16 +156,20 @@
             Yara
         </h1>
 
+
         <p class="welcome-date">
             6 NOVEMBER 2026
         </p>
 
+
         <div class="welcome-line"></div>
+
 
         <p class="welcome-message">
             With joyful hearts, we invite you to celebrate
             the beginning of our forever.
         </p>
+
 
         <a
             href="#countdown"
@@ -58,6 +179,7 @@
         </a>
 
     </section>
+
 
 
     <!-- =====================================================
@@ -73,30 +195,171 @@
             THE BIG DAY
         </p>
 
-        <h2 style="text-shadow: 2px 2px 5px white;">
+
+        <h2>
             Counting Down To Forever
         </h2>
 
-        <div class="countdown" style="text-shadow: 2px 2px 5px white;">
+
+        <div class="countdown">
 
             <div class="countdown-item">
-                <span id="days">00</span>
-                <small>Days</small>
+
+                <span id="days">
+                    00
+                </span>
+
+                <small>
+                    Days
+                </small>
+
             </div>
 
-            <div class="countdown-item">
-                <span id="hours">00</span>
-                <small>Hours</small>
-            </div>
 
             <div class="countdown-item">
-                <span id="minutes">00</span>
-                <small>Minutes</small>
+
+                <span id="hours">
+                    00
+                </span>
+
+                <small>
+                    Hours
+                </small>
+
             </div>
 
+
             <div class="countdown-item">
-                <span id="seconds">00</span>
-                <small>Seconds</small>
+
+                <span id="minutes">
+                    00
+                </span>
+
+                <small>
+                    Minutes
+                </small>
+
+            </div>
+
+
+            <div class="countdown-item">
+
+                <span id="seconds">
+                    00
+                </span>
+
+                <small>
+                    Seconds
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="countdown-photo">
+
+            <img
+                src="Photos/background.png"
+                alt="Wedding background"
+            >
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         AGENDA
+    ====================================================== -->
+
+    <section
+        class="agenda-section"
+        id="agenda"
+    >
+
+        <p class="section-label">
+            THE CELEBRATION
+        </p>
+
+
+        <h2>
+            An Evening To Remember
+        </h2>
+
+
+        <div class="agenda">
+
+            <div class="agenda-item">
+
+                <span class="agenda-time">
+                    6:00 PM
+                </span>
+
+                <h3>
+                    Welcome
+                </h3>
+
+                <p>
+                    Arrive, settle in and
+                    celebrate with us.
+                </p>
+
+            </div>
+
+
+            <div class="agenda-item">
+
+                <span class="agenda-time">
+                    7:00 PM
+                </span>
+
+                <h3>
+                    Dinner
+                </h3>
+
+                <p>
+                    Enjoy an evening of
+                    good food and great company.
+                </p>
+
+            </div>
+
+
+            <div class="agenda-item">
+
+                <span class="agenda-time">
+                    8:00 PM
+                </span>
+
+                <h3>
+                    Celebration
+                </h3>
+
+                <p>
+                    Music, dancing and
+                    unforgettable memories.
+                </p>
+
+            </div>
+
+
+            <div class="agenda-item">
+
+                <span class="agenda-time">
+                    11:00 PM
+                </span>
+
+                <h3>
+                    Until Next Time
+                </h3>
+
+                <p>
+                    The celebration comes to
+                    an end, but the memories remain.
+                </p>
+
             </div>
 
         </div>
@@ -104,224 +367,153 @@
     </section>
 
 
-<!-- =====================================================
-     AGENDA
-====================================================== -->
 
-<section
-    class="agenda-section"
-    id="agenda"
->
+    <!-- =====================================================
+         VENUE
+    ====================================================== -->
 
-    <p class="section-label">
-        THE CELEBRATION
-    </p>
+    <section
+        class="venue-section"
+        id="venue"
+    >
 
-    <h2>
-        An Evening To Remember
-    </h2>
+        <p class="section-label">
+            WHERE WE CELEBRATE
+        </p>
 
 
-    <div class="agenda">
+        <h2>
+            The Venue
+        </h2>
 
-        <div class="agenda-item">
 
-            <span class="agenda-time">
-                6:00 PM
-            </span>
+        <!-- VENUE PHOTO -->
 
-            <h3>
-                Welcome
-            </h3>
+        <div class="venue-photo">
 
-            <p>
-                Arrive, settle in and
-                celebrate with us.
-            </p>
+            <img
+                src="Photos/venue.jpg"
+                alt="The Palace Venue Orabi"
+            >
 
         </div>
 
 
-        <div class="agenda-item">
+        <!-- VENUE INFORMATION -->
 
-            <span class="agenda-time">
-                7:00 PM
-            </span>
+        <div class="venue-info">
 
-            <h3>
-                Dinner
-            </h3>
-
-            <p>
-                Enjoy an evening of
-                good food and great company.
+            <p class="venue-name">
+                <b>
+                    The Palace Venue Orabi
+                </b>
             </p>
+
+
+            <a
+                href="https://maps.app.goo.gl/vaPX2fvupR7VfsCE7"
+                class="location-button"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                View Location
+            </a>
 
         </div>
 
-
-        <div class="agenda-item">
-
-            <span class="agenda-time">
-                8:00 PM
-            </span>
-
-            <h3>
-                Celebration
-            </h3>
-
-            <p>
-                Music, dancing and
-                unforgettable memories.
-            </p>
-
-        </div>
-
-
-        <div class="agenda-item">
-
-            <span class="agenda-time">
-                11:00 PM
-            </span>
-
-            <h3>
-                Until Next Time
-            </h3>
-
-            <p>
-                The celebration comes to
-                an end, but the memories remain.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     VENUE
-====================================================== -->
-
-<section
-    class="venue-section"
-    id="venue"
->
-
-    <p class="section-label">
-        WHERE WE CELEBRATE
-    </p>
-
-    <h2>
-        The Venue
-    </h2>
-
-
-    <!-- FULL WIDTH VENUE PHOTO -->
-
-    <div class="venue-photo">
-
-        <img
-            src="Photos/venue.jpg"
-            alt="The Palace Venue Orabi"
-        >
-
-    </div>
-
-
-    <!-- VENUE INFORMATION -->
-
-    <div class="venue-info">
-
-        <P style="font-size: larger; font-family: Georgia, 'Times New Roman', Times, serif;"> <b>The Palace Venue Orabi</b></P>
-
-
-        <a
-            href="https://maps.app.goo.gl/vaPX2fvupR7VfsCE7"
-            class="location-button"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            View Location
-        </a>
-
-    </div>
-
-</section>
+    </section>
 
 
 
     <!-- =====================================================
-     MEMORIES / PHOTOS
-====================================================== -->
+         MEMORIES
+    ====================================================== -->
 
-<section
-    class="memories-section"
-    id="memories"
->
+    <section
+        class="memories-section"
+        id="memories"
+    >
 
-    <p class="section-label">
-        OUR MEMORIES
-    </p>
-
-    <h2>
-        Moments We Cherish
-    </h2>
-
-    <p class="memories-intro">
-        A few moments from our journey together.
-    </p>
+        <p class="section-label">
+            OUR MEMORIES
+        </p>
 
 
-    <div class="photo-grid">
+        <h2>
+            Moments We Cherish
+        </h2>
 
-        <div class="photo-placeholder">
-            <img
-                src="Photos/photo1.jpg"
-                alt="Ahmad and Yara — Memory 1"
-            >
+
+        <p class="memories-intro">
+            A few moments from our journey together.
+        </p>
+
+
+        <div class="photo-grid">
+
+            <div class="photo-placeholder">
+
+                <img
+                    src="Photos/photo1.jpg"
+                    alt="Ahmad and Yara — Memory 1"
+                >
+
+            </div>
+
+
+            <div class="photo-placeholder">
+
+                <img
+                    src="Photos/photo2.jpg"
+                    alt="Ahmad and Yara — Memory 2"
+                >
+
+            </div>
+
+
+            <div class="photo-placeholder">
+
+                <img
+                    src="Photos/photo3.jpg"
+                    alt="Ahmad and Yara — Memory 3"
+                >
+
+            </div>
+
+
+            <div class="photo-placeholder">
+
+                <img
+                    src="Photos/photo4.jpg"
+                    alt="Ahmad and Yara — Memory 4"
+                >
+
+            </div>
+
+
+            <div class="photo-placeholder">
+
+                <img
+                    src="Photos/photo5.jpg"
+                    alt="Ahmad and Yara — Memory 5"
+                >
+
+            </div>
+
+
+            <div class="photo-placeholder">
+
+                <img
+                    src="Photos/photo6.jpg"
+                    alt="Ahmad and Yara — Memory 6"
+                >
+
+            </div>
+
         </div>
 
-        <div class="photo-placeholder">
-            <img
-                src="Photos/photo2.jpg"
-                alt="Ahmad and Yara — Memory 2"
-            >
-        </div>
+    </section>
 
-        <div class="photo-placeholder">
-            <img
-                src="Photos/photo3.jpg"
-                alt="Ahmad and Yara — Memory 3"
-            >
-        </div>
-
-        <div class="photo-placeholder">
-            <img
-                src="Photos/photo4.jpg"
-                alt="Ahmad and Yara — Memory 4"
-            >
-        </div>
-
-        <div class="photo-placeholder">
-            <img
-                src="Photos/photo5.jpg"
-                alt="Ahmad and Yara — Memory 5"
-            >
-        </div>
-
-        <div class="photo-placeholder">
-            <img
-                src="Photos/photo6.jpg"
-                alt="Ahmad and Yara — Memory 6"
-            >
-        </div>
-
-    </div>
-
-</section>
 
 
     <!-- =====================================================
@@ -337,9 +529,11 @@
             LEAVE A NOTE
         </p>
 
+
         <h2>
             Your Words Mean The World To Us
         </h2>
+
 
         <form class="comment-form">
 
@@ -349,11 +543,13 @@
                 required
             >
 
+
             <textarea
                 placeholder="Write a message for Ahmad & Yara..."
                 rows="5"
                 required
             ></textarea>
+
 
             <button type="submit">
                 Leave Your Message
@@ -362,6 +558,7 @@
         </form>
 
     </section>
+
 
 
     <!-- =====================================================
@@ -377,9 +574,11 @@
             RSVP
         </p>
 
+
         <h2>
             Will You Join Us?
         </h2>
+
 
         <p class="rsvp-message">
             We would love to celebrate this special
@@ -392,18 +591,22 @@
             <button
                 class="rsvp-yes"
                 id="rsvpYes"
+                type="button"
             >
                 Yes, I'll Be There ❤️
-            </button><br>
+            </button>
+
 
             <button
                 class="rsvp-no"
                 id="rsvpNo"
+                type="button"
             >
                 No, I Can't Make It 😢
             </button>
 
         </div>
+
 
         <p
             class="rsvp-response"
@@ -411,6 +614,7 @@
         ></p>
 
     </section>
+
 
 
     <!-- =====================================================
@@ -423,9 +627,11 @@
             With love,
         </p>
 
+
         <h2>
             Ahmad & Yara
         </h2>
+
 
         <p>
             6 November 2026
@@ -433,6 +639,9 @@
 
     </footer>
 
+
+
+    <!-- JAVASCRIPT -->
 
     <script src="invitation.js"></script>
 

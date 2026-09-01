@@ -1,438 +1,554 @@
 /* =========================================================
-COUNTDOWN
+   COUNTDOWN
 ========================================================= */
 
 const weddingDate =
-new Date("November 6, 2026 18:00:00").getTime();
+    new Date("November 6, 2026 18:00:00").getTime();
+
 
 function updateCountdown() {
 
-const now =
-    new Date().getTime();
+    const now = new Date().getTime();
 
-const difference =
-    weddingDate - now;
+    const difference =
+        weddingDate - now;
 
-if (difference <= 0) {
 
-    document.getElementById("days").textContent = "00";
-    document.getElementById("hours").textContent = "00";
-    document.getElementById("minutes").textContent = "00";
-    document.getElementById("seconds").textContent = "00";
+    if (difference <= 0) {
 
-    return;
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+
+        return;
+    }
+
+
+    const days =
+        Math.floor(
+            difference /
+            (1000 * 60 * 60 * 24)
+        );
+
+
+    const hours =
+        Math.floor(
+            (difference /
+                (1000 * 60 * 60)) % 24
+        );
+
+
+    const minutes =
+        Math.floor(
+            (difference /
+                (1000 * 60)) % 60
+        );
+
+
+    const seconds =
+        Math.floor(
+            (difference / 1000) % 60
+        );
+
+
+    document.getElementById("days").textContent =
+        String(days).padStart(2, "0");
+
+    document.getElementById("hours").textContent =
+        String(hours).padStart(2, "0");
+
+    document.getElementById("minutes").textContent =
+        String(minutes).padStart(2, "0");
+
+    document.getElementById("seconds").textContent =
+        String(seconds).padStart(2, "0");
 }
 
-const days =
-    Math.floor(
-        difference /
-        (1000 * 60 * 60 * 24)
-    );
-
-const hours =
-    Math.floor(
-        (difference /
-            (1000 * 60 * 60)) % 24
-    );
-
-const minutes =
-    Math.floor(
-        (difference /
-            (1000 * 60)) % 60
-    );
-
-const seconds =
-    Math.floor(
-        (difference / 1000) % 60
-    );
-
-
-document.getElementById("days").textContent =
-    String(days).padStart(2, "0");
-
-document.getElementById("hours").textContent =
-    String(hours).padStart(2, "0");
-
-document.getElementById("minutes").textContent =
-    String(minutes).padStart(2, "0");
-
-document.getElementById("seconds").textContent =
-    String(seconds).padStart(2, "0");
-
-}
 
 updateCountdown();
 
 setInterval(
-updateCountdown,
-1000
+    updateCountdown,
+    1000
 );
 
+
 /* =========================================================
-COMMENTS
+   COMMENTS
 ========================================================= */
 
 const commentForm =
-document.querySelector(".comment-form");
+    document.querySelector(".comment-form");
+
 
 if (commentForm) {
 
-commentForm.addEventListener(
-    "submit",
-    function (event) {
+    commentForm.addEventListener(
+        "submit",
+        function (event) {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const name =
-            commentForm.querySelector("input").value;
 
-        commentForm.reset();
+            const name =
+                commentForm.querySelector("input").value;
 
-        alert(
-            `Thank you, ${name}! ❤️\n\n` +
-            `Your message means the world to Ahmad & Yara.`
-        );
-    }
-);
+
+            commentForm.reset();
+
+
+            alert(
+                `Thank you, ${name}! ❤️\n\n` +
+                `Your message means the world to Ahmad & Yara.`
+            );
+
+        }
+    );
 
 }
 
+
 /* =========================================================
-RSVP ELEMENTS
+   RSVP ELEMENTS
 ========================================================= */
 
 const rsvpYes =
-document.getElementById("rsvpYes");
+    document.getElementById("rsvpYes");
 
 const rsvpNo =
-document.getElementById("rsvpNo");
+    document.getElementById("rsvpNo");
 
 const rsvpResponse =
-document.getElementById("rsvpResponse");
+    document.getElementById("rsvpResponse");
 
 const rsvpContainer =
-document.querySelector(".rsvp-buttons");
+    document.querySelector(".rsvp-buttons");
+
 
 /* =========================================================
-RSVP SAFETY CHECK
+   RSVP
 ========================================================= */
 
 if (
-rsvpYes &&
-rsvpNo &&
-rsvpResponse &&
-rsvpContainer
+    rsvpYes &&
+    rsvpNo &&
+    rsvpResponse &&
+    rsvpContainer
 ) {
 
-/* =====================================================
-   PLAYFUL NO MESSAGES
-===================================================== */
 
-const noMessages = [
+    /* =====================================================
+       PLAYFUL NO MESSAGES
+    ===================================================== */
 
-    "Nice try 😏",
+    const noMessages = [
 
-    "Are you sure?",
+        "Nice try 😏",
+        "Are you sure?",
+        "Think again 👀",
+        "Really? 😢",
+        "You can't escape! 😂",
+        "Try again!",
+        "Nope! 😌",
+        "Wrong button 😏",
+        "I don't think so!",
+        "Are you REALLY sure?",
+        "Come on... 🥺",
+        "Just say YES ❤️",
+        "You missed! 😂",
+        "Nice try again 😏",
+        "Still no? 😭",
+        "I'm not giving up! 😂",
+        "One more chance ❤️"
 
-    "Think again 👀",
-
-    "Really? 😢",
-
-    "You can't escape! 😂",
-
-    "Try again!",
-
-    "Nope! 😌",
-
-    "Wrong button 😏",
-
-    "I don't think so!",
-
-    "Are you REALLY sure?",
-
-    "Come on... 🥺",
-
-    "Just say YES ❤️",
-
-    "You missed! 😂",
-
-    "Nice try again 😏",
-
-    "Still no? 😭",
-
-    "I'm not giving up! 😂",
-
-    "One more chance ❤️"
-
-];
+    ];
 
 
-let noMessageIndex = 0;
+    let noMessageIndex = 0;
 
 
+    /* =====================================================
+       INITIAL NO BUTTON POSITION
+    ===================================================== */
+
+    function positionNoInitially() {
+
+        const containerWidth =
+            rsvpContainer.clientWidth;
+
+        const buttonWidth =
+            rsvpNo.offsetWidth;
 
 
-/* =====================================================
-   MOVE NO BUTTON
-===================================================== */
-
-function moveNoButton() {
-
-    /*
-     * Change the text first.
-     *
-     * This is important because the button
-     * may become wider after the text changes.
-     */
-
-    rsvpNo.textContent =
-        noMessages[noMessageIndex];
+        const centerX =
+            (containerWidth - buttonWidth) / 2;
 
 
-    noMessageIndex++;
+        rsvpNo.style.left =
+            `${centerX}px`;
 
-    if (
-        noMessageIndex >=
-        noMessages.length
-    ) {
+        rsvpNo.style.top =
+            "calc(50% + 65px)";
 
-        noMessageIndex = 0;
+        rsvpNo.style.transform =
+            "translate(0, -50%)";
     }
 
 
-    /*
-     * Remove the hover scale while
-     * calculating the new position.
-     */
+    /* =====================================================
+       MOVE NO BUTTON
+    ===================================================== */
 
-    rsvpNo.style.transform =
-        "none";
+    function moveNoButton() {
 
-
-    /*
-     * Get current dimensions.
-     */
-
-    const buttonWidth =
-        rsvpNo.offsetWidth;
-
-    const buttonHeight =
-        rsvpNo.offsetHeight;
-
-    const containerWidth =
-        rsvpContainer.clientWidth;
-
-    const containerHeight =
-        rsvpContainer.clientHeight;
+        rsvpNo.textContent =
+            noMessages[noMessageIndex];
 
 
-    /*
-     * Safe padding from edges.
-     */
+        noMessageIndex++;
 
-    const padding = 10;
-
-
-    /*
-     * Calculate maximum legal positions.
-     */
-
-    const maxLeft =
-        Math.max(
-            padding,
-            containerWidth -
-            buttonWidth -
-            padding
-        );
-
-    const maxTop =
-        Math.max(
-            padding,
-            containerHeight -
-            buttonHeight -
-            padding
-        );
-
-
-    /*
-     * Pick random coordinates.
-     */
-
-    const newLeft =
-        padding +
-        Math.random() *
-        Math.max(
-            0,
-            maxLeft - padding
-        );
-
-    const newTop =
-        padding +
-        Math.random() *
-        Math.max(
-            0,
-            maxTop - padding
-        );
-
-
-    /*
-     * Move smoothly.
-     */
-
-    rsvpNo.style.left =
-        `${newLeft}px`;
-
-    rsvpNo.style.top =
-        `${newTop}px`;
-}
-
-
-/* =====================================================
-   YES BUTTON
-===================================================== */
-
-rsvpYes.addEventListener(
-    "click",
-    function () {
-
-        /*
-         * Confirmation message.
-         */
-
-        rsvpResponse.textContent =
-            "We can't wait to celebrate with you! ❤️";
-
-        rsvpResponse.style.opacity =
-            "1";
-
-
-        /*
-         * Disable NO immediately.
-         */
-
-        rsvpNo.disabled =
-            true;
-
-
-        /*
-         * Make NO disappear.
-         */
-
-        rsvpNo.classList.add(
-            "accepted"
-        );
-    }
-);
-
-
-/* =====================================================
-   DESKTOP
-===================================================== */
-
-rsvpNo.addEventListener(
-    "mouseenter",
-    function () {
 
         if (
-            !rsvpNo.disabled
+            noMessageIndex >=
+            noMessages.length
         ) {
 
-            moveNoButton();
-        }
-    }
-);
-
-
-/* =====================================================
-   MOBILE / TOUCH
-===================================================== */
-
-rsvpNo.addEventListener(
-    "touchstart",
-    function (event) {
-
-        event.preventDefault();
-
-        if (
-            !rsvpNo.disabled
-        ) {
-
-            moveNoButton();
+            noMessageIndex = 0;
         }
 
-    },
-    {
-        passive: false
+
+        rsvpNo.style.transform =
+            "none";
+
+
+        const buttonWidth =
+            rsvpNo.offsetWidth;
+
+        const buttonHeight =
+            rsvpNo.offsetHeight;
+
+
+        const containerWidth =
+            rsvpContainer.clientWidth;
+
+        const containerHeight =
+            rsvpContainer.clientHeight;
+
+
+        const padding = 10;
+
+
+        const maxLeft =
+            Math.max(
+                padding,
+                containerWidth -
+                buttonWidth -
+                padding
+            );
+
+
+        const maxTop =
+            Math.max(
+                padding,
+                containerHeight -
+                buttonHeight -
+                padding
+            );
+
+
+        const newLeft =
+            padding +
+            Math.random() *
+            Math.max(
+                0,
+                maxLeft - padding
+            );
+
+
+        const newTop =
+            padding +
+            Math.random() *
+            Math.max(
+                0,
+                maxTop - padding
+            );
+
+
+        rsvpNo.style.left =
+            `${newLeft}px`;
+
+        rsvpNo.style.top =
+            `${newTop}px`;
     }
-);
 
 
-/* =====================================================
-   CLICK FALLBACK
-===================================================== */
+    /* =====================================================
+       YES BUTTON
+    ===================================================== */
 
-rsvpNo.addEventListener(
-    "click",
-    function (event) {
+    rsvpYes.addEventListener(
+        "click",
+        function () {
 
-        event.preventDefault();
-
-        if (
-            !rsvpNo.disabled
-        ) {
-
-            moveNoButton();
-        }
-    }
-);
+            rsvpResponse.textContent =
+                "We can't wait to celebrate with you! ❤️";
 
 
-/* =====================================================
-   INITIAL POSITION
-   
-   Wait until the page has rendered so
-   offsetWidth / offsetHeight are correct.
-===================================================== */
-
-window.addEventListener(
-    "load",
-    function () {
-
-        positionNoInitially();
-    }
-);
+            rsvpResponse.style.opacity =
+                "1";
 
 
-/*
- * Also position it immediately in case
- * the page has already loaded.
- */
-
-positionNoInitially();
+            rsvpNo.disabled =
+                true;
 
 
-/* =====================================================
-   HANDLE RESIZING
-===================================================== */
-
-window.addEventListener(
-    "resize",
-    function () {
-
-        /*
-         * Only reposition if NO hasn't
-         * already been accepted.
-         */
-
-        if (
-            !rsvpNo.classList.contains(
+            rsvpNo.classList.add(
                 "accepted"
-            )
-        ) {
+            );
+        }
+    );
+
+
+    /* =====================================================
+       DESKTOP
+    ===================================================== */
+
+    rsvpNo.addEventListener(
+        "mouseenter",
+        function () {
+
+            if (!rsvpNo.disabled) {
+
+                moveNoButton();
+            }
+        }
+    );
+
+
+    /* =====================================================
+       MOBILE / TOUCH
+    ===================================================== */
+
+    rsvpNo.addEventListener(
+        "touchstart",
+        function (event) {
+
+            event.preventDefault();
+
+
+            if (!rsvpNo.disabled) {
+
+                moveNoButton();
+            }
+
+        },
+        {
+            passive: false
+        }
+    );
+
+
+    /* =====================================================
+       CLICK FALLBACK
+    ===================================================== */
+
+    rsvpNo.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+
+            if (!rsvpNo.disabled) {
+
+                moveNoButton();
+            }
+        }
+    );
+
+
+    /* =====================================================
+       INITIAL POSITION
+    ===================================================== */
+
+    window.addEventListener(
+        "load",
+        function () {
 
             positionNoInitially();
         }
+    );
+
+
+    positionNoInitially();
+
+
+    /* =====================================================
+       HANDLE RESIZING
+    ===================================================== */
+
+    window.addEventListener(
+        "resize",
+        function () {
+
+            if (
+                !rsvpNo.classList.contains(
+                    "accepted"
+                )
+            ) {
+
+                positionNoInitially();
+            }
+        }
+    );
+
+}
+
+
+/* =========================================================
+   NAVIGATION MENU
+========================================================= */
+
+const menuToggle =
+    document.getElementById("menuToggle");
+
+const menuClose =
+    document.getElementById("menuClose");
+
+const sideMenu =
+    document.getElementById("sideMenu");
+
+const menuOverlay =
+    document.getElementById("menuOverlay");
+
+const menuLinks =
+    document.querySelectorAll(".menu-links a");
+
+
+/* =========================================================
+   OPEN MENU
+========================================================= */
+
+function openMenu() {
+
+    sideMenu.classList.add("open");
+
+    menuOverlay.classList.add("show");
+
+    document.body.classList.add("menu-open");
+
+
+    menuToggle.setAttribute(
+        "aria-expanded",
+        "true"
+    );
+
+
+    sideMenu.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+
+
+/* =========================================================
+   CLOSE MENU
+========================================================= */
+
+function closeMenu() {
+
+    sideMenu.classList.remove("open");
+
+    menuOverlay.classList.remove("show");
+
+    document.body.classList.remove("menu-open");
+
+
+    menuToggle.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+
+    sideMenu.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+}
+
+
+/* =========================================================
+   OPEN
+========================================================= */
+
+if (menuToggle) {
+
+    menuToggle.addEventListener(
+        "click",
+        openMenu
+    );
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+if (menuClose) {
+
+    menuClose.addEventListener(
+        "click",
+        closeMenu
+    );
+}
+
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+if (menuOverlay) {
+
+    menuOverlay.addEventListener(
+        "click",
+        closeMenu
+    );
+}
+
+
+/* =========================================================
+   MENU LINKS
+========================================================= */
+
+menuLinks.forEach(
+    link => {
+
+        link.addEventListener(
+            "click",
+            closeMenu
+        );
+
     }
 );
 
-}
+
+/* =========================================================
+   ESCAPE KEY
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape" &&
+            sideMenu &&
+            sideMenu.classList.contains("open")
+        ) {
+
+            closeMenu();
+        }
+
+    }
+);
