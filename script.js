@@ -112,7 +112,7 @@ function openEnvelope() {
     setTimeout(() => {
 
         window.location.href =
-            "invitation.html";
+            "English/invitation.html";
 
     }, 5000);
 }
