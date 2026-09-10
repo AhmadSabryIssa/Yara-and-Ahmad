@@ -1425,6 +1425,53 @@ section h2 {
 }
 
 
+
+/* =========================================================
+   RSVP NAME
+========================================================= */
+
+.rsvp-name-wrapper {
+    width: min(420px, 90vw);
+    margin-top: 30px;
+}
+
+.rsvp-name {
+    width: 100%;
+    padding: 15px 16px;
+
+    border: 1px solid rgba(140, 122, 102, 0.35);
+
+    background: #fffefa;
+
+    color: #342d26;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 13px;
+
+    text-align: center;
+
+    outline: none;
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.rsvp-name:focus {
+    border-color: #8c7a66;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.rsvp-name:disabled {
+    opacity: 0.65;
+}
+
+
 /* =========================================================
    RSVP PLAYGROUND
 ========================================================= */

@@ -81,28 +81,76 @@ setInterval(
 const commentForm =
     document.querySelector(".comment-form");
 
-
 if (commentForm) {
 
     commentForm.addEventListener(
         "submit",
-        function (event) {
+        async function (event) {
 
             event.preventDefault();
 
-
             const name =
-                commentForm.querySelector("input").value;
+                commentForm.querySelector("input").value.trim();
 
+            const message =
+                commentForm.querySelector("textarea").value.trim();
+
+            const language =
+                commentForm.dataset.language || "en";
+
+            const submitButton =
+                commentForm.querySelector("button");
+
+            if (!weddingDbConfigured || !weddingDb) {
+                alert(
+                    "The guestbook is not connected yet. " +
+                    "Please complete the Supabase setup."
+                );
+                return;
+            }
+
+            if (!name || !message) {
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = "Sending...";
+
+            const { error } =
+                await weddingDb.rpc(
+                    "submit_comment",
+                    {
+                        p_guest_name: name,
+                        p_message: message
+                    }
+                );
+
+            if (error) {
+
+                console.error(
+                    "Comment submission failed:",
+                    error
+                );
+
+                alert(
+                    "We couldn't send your message right now. " +
+                    "Please try again."
+                );
+
+                submitButton.disabled = false;
+                submitButton.textContent = "Leave Your Message";
+                return;
+            }
 
             commentForm.reset();
-
 
             alert(
                 `Thank you, ${name}! ❤️\n\n` +
                 `Your message means the world to Ahmad & Yara.`
             );
 
+            submitButton.disabled = false;
+            submitButton.textContent = "Leave Your Message";
         }
     );
 
@@ -291,21 +339,88 @@ if (
         "click",
         function () {
 
-            rsvpResponse.textContent =
-                "We can't wait to celebrate with you! ❤️";
+            const rsvpNameInput =
+                document.getElementById("rsvpName");
 
+            const guestName =
+                rsvpNameInput
+                    ? rsvpNameInput.value.trim()
+                    : "";
 
-            rsvpResponse.style.opacity =
-                "1";
+            const rsvpSection =
+                document.getElementById("rsvp");
 
+            const language =
+                rsvpSection
+                    ? rsvpSection.dataset.language || "en"
+                    : "en";
 
-            rsvpNo.disabled =
-                true;
+            if (!guestName) {
+                if (rsvpNameInput) {
+                    rsvpNameInput.focus();
+                }
+                rsvpResponse.textContent =
+                    "Please enter your name first.";
+                rsvpResponse.style.opacity = "1";
+                return;
+            }
 
+            if (!weddingDbConfigured || !weddingDb) {
+                rsvpResponse.textContent =
+                    "The RSVP system is not connected yet.";
+                rsvpResponse.style.opacity = "1";
+                return;
+            }
 
-            rsvpNo.classList.add(
-                "accepted"
-            );
+            rsvpYes.disabled = true;
+            rsvpYes.textContent = "Saving...";
+
+            weddingDb
+                .rpc(
+                    "submit_rsvp",
+                    {
+                        p_guest_name: guestName
+                    }
+                )
+                .then(({ error }) => {
+
+                    if (error) {
+
+                        console.error(
+                            "RSVP submission failed:",
+                            error
+                        );
+
+                        rsvpResponse.textContent =
+                            "We couldn't save your RSVP. Please try again.";
+
+                        rsvpResponse.style.opacity = "1";
+                        rsvpYes.disabled = false;
+                        rsvpYes.textContent =
+                            "Yes, I'll Be There ❤️";
+                        return;
+                    }
+
+                    rsvpResponse.textContent =
+                        "We can't wait to celebrate with you! ❤️";
+
+                    rsvpResponse.style.opacity =
+                        "1";
+
+                    rsvpNo.disabled =
+                        true;
+
+                    rsvpNo.classList.add(
+                        "accepted"
+                    );
+
+                    if (rsvpNameInput) {
+                        rsvpNameInput.disabled = true;
+                    }
+
+                    rsvpYes.textContent =
+                        "Confirmed ❤️";
+                });
         }
     );
 

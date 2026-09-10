@@ -535,7 +535,7 @@
         </h2>
 
 
-        <form class="comment-form">
+        <form class="comment-form" data-language="en">
 
             <input
                 type="text"
@@ -568,6 +568,7 @@
     <section
         class="rsvp-section"
         id="rsvp"
+        data-language="en"
     >
 
         <p class="section-label">
@@ -584,6 +585,20 @@
             We would love to celebrate this special
             day with you.
         </p>
+
+
+
+        <div class="rsvp-name-wrapper">
+            <input
+                type="text"
+                id="rsvpName"
+                class="rsvp-name"
+                placeholder="Your name"
+                maxlength="100"
+                autocomplete="name"
+                required
+            >
+        </div>
 
 
         <div class="rsvp-buttons">
@@ -643,6 +658,8 @@
 
     <!-- JAVASCRIPT -->
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase.js"></script>
     <script src="invitation.js"></script>
 
 </body>

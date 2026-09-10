@@ -81,28 +81,76 @@ setInterval(
 const commentForm =
     document.querySelector(".comment-form");
 
-
 if (commentForm) {
 
     commentForm.addEventListener(
         "submit",
-        function (event) {
+        async function (event) {
 
             event.preventDefault();
 
-
             const name =
-                commentForm.querySelector("input").value;
+                commentForm.querySelector("input").value.trim();
 
+            const message =
+                commentForm.querySelector("textarea").value.trim();
+
+            const language =
+                commentForm.dataset.language || "ar";
+
+            const submitButton =
+                commentForm.querySelector("button");
+
+            if (!weddingDbConfigured || !weddingDb) {
+                alert(
+                    "لم يتم ربط دفتر الزوار بقاعدة البيانات بعد. " +
+                    "يرجى إكمال إعداد Supabase."
+                );
+                return;
+            }
+
+            if (!name || !message) {
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = "جارٍ الإرسال...";
+
+            const { error } =
+                await weddingDb.rpc(
+                    "submit_comment",
+                    {
+                        p_guest_name: name,
+                        p_message: message
+                    }
+                );
+
+            if (error) {
+
+                console.error(
+                    "Comment submission failed:",
+                    error
+                );
+
+                alert(
+                    "تعذر إرسال رسالتكم حاليًا. " +
+                    "يرجى المحاولة مرة أخرى."
+                );
+
+                submitButton.disabled = false;
+                submitButton.textContent = "أرسل رسالتك";
+                return;
+            }
 
             commentForm.reset();
 
-
             alert(
-                `Thank you, ${name}! ❤️\n\n` +
-                `Your message means the world to Ahmad & Yara.`
+                `شكرًا لك يا ${name}! ❤️\n\n` +
+                `كلماتك تعني الكثير لأحمد ويارا.`
             );
 
+            submitButton.disabled = false;
+            submitButton.textContent = "أرسل رسالتك";
         }
     );
 
@@ -291,21 +339,88 @@ if (
         "click",
         function () {
 
-            rsvpResponse.textContent =
-                "We can't wait to celebrate with you! ❤️";
+            const rsvpNameInput =
+                document.getElementById("rsvpName");
 
+            const guestName =
+                rsvpNameInput
+                    ? rsvpNameInput.value.trim()
+                    : "";
 
-            rsvpResponse.style.opacity =
-                "1";
+            const rsvpSection =
+                document.getElementById("rsvp");
 
+            const language =
+                rsvpSection
+                    ? rsvpSection.dataset.language || "ar"
+                    : "ar";
 
-            rsvpNo.disabled =
-                true;
+            if (!guestName) {
+                if (rsvpNameInput) {
+                    rsvpNameInput.focus();
+                }
+                rsvpResponse.textContent =
+                    "يرجى كتابة اسمك أولًا.";
+                rsvpResponse.style.opacity = "1";
+                return;
+            }
 
+            if (!weddingDbConfigured || !weddingDb) {
+                rsvpResponse.textContent =
+                    "لم يتم ربط نظام تأكيد الحضور بقاعدة البيانات بعد.";
+                rsvpResponse.style.opacity = "1";
+                return;
+            }
 
-            rsvpNo.classList.add(
-                "accepted"
-            );
+            rsvpYes.disabled = true;
+            rsvpYes.textContent = "جارٍ الحفظ...";
+
+            weddingDb
+                .rpc(
+                    "submit_rsvp",
+                    {
+                        p_guest_name: guestName
+                    }
+                )
+                .then(({ error }) => {
+
+                    if (error) {
+
+                        console.error(
+                            "RSVP submission failed:",
+                            error
+                        );
+
+                        rsvpResponse.textContent =
+                            "تعذر حفظ تأكيد الحضور. يرجى المحاولة مرة أخرى.";
+
+                        rsvpResponse.style.opacity = "1";
+                        rsvpYes.disabled = false;
+                        rsvpYes.textContent =
+                            "نعم، سأكون معكم ❤️";
+                        return;
+                    }
+
+                    rsvpResponse.textContent =
+                        "لا يسعنا الانتظار للاحتفال معكم! ❤️";
+
+                    rsvpResponse.style.opacity =
+                        "1";
+
+                    rsvpNo.disabled =
+                        true;
+
+                    rsvpNo.classList.add(
+                        "accepted"
+                    );
+
+                    if (rsvpNameInput) {
+                        rsvpNameInput.disabled = true;
+                    }
+
+                    rsvpYes.textContent =
+                        "تم تأكيد الحضور ❤️";
+                });
         }
     );
 
