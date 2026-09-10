@@ -1,3 +1,4 @@
+
 /* =========================================================
    COUNTDOWN
 ========================================================= */
@@ -74,12 +75,28 @@ setInterval(
 );
 
 
+
 /* =========================================================
    COMMENTS
 ========================================================= */
 
+/*
+   This stores the ID of the comment that the guest
+   has just submitted.
+
+   If the guest does not submit a comment, this stays null.
+
+   If they submit a comment, it contains the ID of that
+   comment so the YES button can mark that same comment
+   as attending = true.
+*/
+
+window.lastCommentId = null;
+
+
 const commentForm =
     document.querySelector(".comment-form");
+
 
 if (commentForm) {
 
@@ -89,34 +106,68 @@ if (commentForm) {
 
             event.preventDefault();
 
+
             const name =
-                commentForm.querySelector("input").value.trim();
+                commentForm
+                    .querySelector("input")
+                    .value
+                    .trim();
+
 
             const message =
-                commentForm.querySelector("textarea").value.trim();
+                commentForm
+                    .querySelector("textarea")
+                    .value
+                    .trim();
 
-            const language =
-                commentForm.dataset.language || "en";
 
             const submitButton =
                 commentForm.querySelector("button");
 
+
+            /* ---------------------------------------------
+               CHECK DATABASE CONNECTION
+            --------------------------------------------- */
+
             if (!weddingDbConfigured || !weddingDb) {
+
                 alert(
                     "The guestbook is not connected yet. " +
                     "Please complete the Supabase setup."
                 );
+
                 return;
             }
+
+
+            /* ---------------------------------------------
+               CHECK COMMENT FIELDS
+            --------------------------------------------- */
 
             if (!name || !message) {
                 return;
             }
 
-            submitButton.disabled = true;
-            submitButton.textContent = "Sending...";
 
-            const { error } =
+            /* ---------------------------------------------
+               DISABLE BUTTON WHILE SENDING
+            --------------------------------------------- */
+
+            submitButton.disabled =
+                true;
+
+            submitButton.textContent =
+                "Sending...";
+
+
+            /* ---------------------------------------------
+               SUBMIT COMMENT
+
+               submit_comment now returns the ID of the
+               newly created comment.
+            --------------------------------------------- */
+
+            const { data, error } =
                 await weddingDb.rpc(
                     "submit_comment",
                     {
@@ -125,6 +176,11 @@ if (commentForm) {
                     }
                 );
 
+
+            /* ---------------------------------------------
+               HANDLE ERROR
+            --------------------------------------------- */
+
             if (error) {
 
                 console.error(
@@ -132,29 +188,61 @@ if (commentForm) {
                     error
                 );
 
+
                 alert(
                     "We couldn't send your message right now. " +
                     "Please try again."
                 );
 
-                submitButton.disabled = false;
-                submitButton.textContent = "Leave Your Message";
+
+                submitButton.disabled =
+                    false;
+
+                submitButton.textContent =
+                    "Leave Your Message";
+
                 return;
             }
 
+
+            /* ---------------------------------------------
+               REMEMBER COMMENT ID
+
+               This allows the YES button to update
+               the exact comment that was just submitted.
+            --------------------------------------------- */
+
+            window.lastCommentId =
+                data;
+
+
+            /* ---------------------------------------------
+               RESET FORM
+            --------------------------------------------- */
+
             commentForm.reset();
+
+
+            /* ---------------------------------------------
+               SUCCESS MESSAGE
+            --------------------------------------------- */
 
             alert(
                 `Thank you, ${name}! ❤️\n\n` +
                 `Your message means the world to Ahmad & Yara.`
             );
 
-            submitButton.disabled = false;
-            submitButton.textContent = "Leave Your Message";
+
+            submitButton.disabled =
+                false;
+
+            submitButton.textContent =
+                "Leave Your Message";
         }
     );
 
 }
+
 
 
 /* =========================================================
@@ -164,14 +252,18 @@ if (commentForm) {
 const rsvpYes =
     document.getElementById("rsvpYes");
 
+
 const rsvpNo =
     document.getElementById("rsvpNo");
+
 
 const rsvpResponse =
     document.getElementById("rsvpResponse");
 
+
 const rsvpContainer =
     document.querySelector(".rsvp-buttons");
+
 
 
 /* =========================================================
@@ -216,6 +308,7 @@ if (
     let noMessageIndex = 0;
 
 
+
     /* =====================================================
        INITIAL NO BUTTON POSITION
     ===================================================== */
@@ -224,6 +317,7 @@ if (
 
         const containerWidth =
             rsvpContainer.clientWidth;
+
 
         const buttonWidth =
             rsvpNo.offsetWidth;
@@ -236,12 +330,15 @@ if (
         rsvpNo.style.left =
             `${centerX}px`;
 
+
         rsvpNo.style.top =
             "calc(50% + 65px)";
+
 
         rsvpNo.style.transform =
             "translate(0, -50%)";
     }
+
 
 
     /* =====================================================
@@ -273,12 +370,14 @@ if (
         const buttonWidth =
             rsvpNo.offsetWidth;
 
+
         const buttonHeight =
             rsvpNo.offsetHeight;
 
 
         const containerWidth =
             rsvpContainer.clientWidth;
+
 
         const containerHeight =
             rsvpContainer.clientHeight;
@@ -326,9 +425,11 @@ if (
         rsvpNo.style.left =
             `${newLeft}px`;
 
+
         rsvpNo.style.top =
             `${newTop}px`;
     }
+
 
 
     /* =====================================================
@@ -337,92 +438,109 @@ if (
 
     rsvpYes.addEventListener(
         "click",
-        function () {
+        async function () {
 
-            const rsvpNameInput =
-                document.getElementById("rsvpName");
+            /*
+               =================================================
+               CASE 1:
+               Guest submitted a comment.
 
-            const guestName =
-                rsvpNameInput
-                    ? rsvpNameInput.value.trim()
-                    : "";
+               We mark that comment as:
+                   attending = TRUE
+               =================================================
+            */
 
-            const rsvpSection =
-                document.getElementById("rsvp");
+            if (window.lastCommentId) {
 
-            const language =
-                rsvpSection
-                    ? rsvpSection.dataset.language || "en"
-                    : "en";
+                rsvpYes.disabled =
+                    true;
 
-            if (!guestName) {
-                if (rsvpNameInput) {
-                    rsvpNameInput.focus();
-                }
-                rsvpResponse.textContent =
-                    "Please enter your name first.";
-                rsvpResponse.style.opacity = "1";
-                return;
-            }
+                rsvpYes.textContent =
+                    "Saving...";
 
-            if (!weddingDbConfigured || !weddingDb) {
-                rsvpResponse.textContent =
-                    "The RSVP system is not connected yet.";
-                rsvpResponse.style.opacity = "1";
-                return;
-            }
 
-            rsvpYes.disabled = true;
-            rsvpYes.textContent = "Saving...";
+                const { error } =
+                    await weddingDb.rpc(
+                        "confirm_attendance",
+                        {
+                            p_comment_id:
+                                window.lastCommentId
+                        }
+                    );
 
-            weddingDb
-                .rpc(
-                    "submit_rsvp",
-                    {
-                        p_guest_name: guestName
-                    }
-                )
-                .then(({ error }) => {
 
-                    if (error) {
+                /*
+                   ---------------------------------------------
+                   HANDLE DATABASE ERROR
+                   ---------------------------------------------
+                */
 
-                        console.error(
-                            "RSVP submission failed:",
-                            error
-                        );
+                if (error) {
 
-                        rsvpResponse.textContent =
-                            "We couldn't save your RSVP. Please try again.";
+                    console.error(
+                        "Attendance update failed:",
+                        error
+                    );
 
-                        rsvpResponse.style.opacity = "1";
-                        rsvpYes.disabled = false;
-                        rsvpYes.textContent =
-                            "Yes, I'll Be There ❤️";
-                        return;
-                    }
 
                     rsvpResponse.textContent =
-                        "We can't wait to celebrate with you! ❤️";
+                        "We couldn't save your RSVP. Please try again.";
+
 
                     rsvpResponse.style.opacity =
                         "1";
 
-                    rsvpNo.disabled =
-                        true;
 
-                    rsvpNo.classList.add(
-                        "accepted"
-                    );
+                    rsvpYes.disabled =
+                        false;
 
-                    if (rsvpNameInput) {
-                        rsvpNameInput.disabled = true;
-                    }
 
                     rsvpYes.textContent =
-                        "Confirmed ❤️";
-                });
+                        "Yes, I'll Be There ❤️";
+
+
+                    return;
+                }
+            }
+
+
+            /*
+               =================================================
+               CASE 2:
+               Guest did NOT submit a comment.
+
+               No database action happens.
+
+               We simply show the confirmation message.
+               =================================================
+            */
+
+            rsvpResponse.textContent =
+                "We can't wait to celebrate with you! ❤️";
+
+
+            rsvpResponse.style.opacity =
+                "1";
+
+
+            rsvpYes.textContent =
+                "Confirmed ❤️";
+
+
+            rsvpYes.disabled =
+                true;
+
+
+            rsvpNo.disabled =
+                true;
+
+
+            rsvpNo.classList.add(
+                "accepted"
+            );
         }
     );
+
 
 
     /* =====================================================
@@ -439,6 +557,7 @@ if (
             }
         }
     );
+
 
 
     /* =====================================================
@@ -464,6 +583,7 @@ if (
     );
 
 
+
     /* =====================================================
        CLICK FALLBACK
     ===================================================== */
@@ -483,6 +603,7 @@ if (
     );
 
 
+
     /* =====================================================
        INITIAL POSITION
     ===================================================== */
@@ -497,6 +618,7 @@ if (
 
 
     positionNoInitially();
+
 
 
     /* =====================================================
@@ -521,6 +643,7 @@ if (
 }
 
 
+
 /* =========================================================
    NAVIGATION MENU
 ========================================================= */
@@ -528,17 +651,22 @@ if (
 const menuToggle =
     document.getElementById("menuToggle");
 
+
 const menuClose =
     document.getElementById("menuClose");
+
 
 const sideMenu =
     document.getElementById("sideMenu");
 
+
 const menuOverlay =
     document.getElementById("menuOverlay");
 
+
 const menuLinks =
     document.querySelectorAll(".menu-links a");
+
 
 
 /* =========================================================
@@ -567,6 +695,7 @@ function openMenu() {
 }
 
 
+
 /* =========================================================
    CLOSE MENU
 ========================================================= */
@@ -593,6 +722,7 @@ function closeMenu() {
 }
 
 
+
 /* =========================================================
    OPEN
 ========================================================= */
@@ -604,6 +734,7 @@ if (menuToggle) {
         openMenu
     );
 }
+
 
 
 /* =========================================================
@@ -619,6 +750,7 @@ if (menuClose) {
 }
 
 
+
 /* =========================================================
    OVERLAY
 ========================================================= */
@@ -630,6 +762,7 @@ if (menuOverlay) {
         closeMenu
     );
 }
+
 
 
 /* =========================================================
@@ -646,6 +779,7 @@ menuLinks.forEach(
 
     }
 );
+
 
 
 /* =========================================================
